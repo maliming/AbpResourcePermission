@@ -24,6 +24,14 @@ public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvide
         authorsPermission.AddChild(
             BookStorePermissions.Authors.Delete, L("Permission:Authors.Delete"));
 
+        AddBookStoreResourcePermission(context);
+    }
+
+    protected virtual void AddBookStoreResourcePermission(IPermissionDefinitionContext context)
+    {
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookName, BookStorePermissions.Resources.BookResourceName, L("Change book name"));
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookPrice, BookStorePermissions.Resources.BookResourceName, L("Change book type"));
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookType, BookStorePermissions.Resources.BookResourceName, L("Change book price"));
     }
 
     private static LocalizableString L(string name)

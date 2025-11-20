@@ -1,15 +1,28 @@
 @page
+@using Acme.BookStore.Books
 @using Acme.BookStore.Localization
 @using Acme.BookStore.Permissions
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.Domain.Repositories
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
 @inject IAuthorizationService AuthorizationService
+@inject IRepository<Book, Guid> BookRepository
+@{
+    var books = await BookRepository.GetListAsync();
+    var resourvePermissions = new Dictionary<string, bool>();
+    foreach (var book in books)
+    {
+        resourvePermissions[book.Name] = await AuthorizationService.IsGrantedAsync(book, BookStorePermissions.Resources.ChangeBookName);
+    }
+}
+
 @section scripts
 {
     <abp-script src="/Pages/Books/Index.js"/>
+    <abp-script src="/Pages/AbpPermissionManagement/resource-permission-management-modal.js" />
 }
 
 <abp-card>
@@ -30,6 +43,13 @@
         </abp-row>
     </abp-card-header>
     <abp-card-body>
+        <code>await AuthorizationService.IsGrantedAsync(book, BookStorePermissions.Resources.ChangeBookName);</code>
+        <ul class="list-group mb-2 mt-2">
+            @foreach (var rp in resourvePermissions)
+            {
+                <li class="list-group-item">Book Name: <span class="badge text-bg-primary rounded-pill me-2">@rp.Key</span> IsGranted: <span class="badge text-bg-primary rounded-pill">@rp.Value</span></li>
+            }
+        </ul>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
 </abp-card>

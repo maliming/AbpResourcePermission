@@ -235,6 +235,7 @@ namespace Acme.BookStore.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GroupName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ResourceName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ParentName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
@@ -246,6 +247,23 @@ namespace Acme.BookStore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpPermissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AbpResourcePermissionGrants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ResourceName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ResourceKey = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AbpResourcePermissionGrants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -301,7 +319,7 @@ namespace Acme.BookStore.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SessionId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Device = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    DeviceInfo = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    DeviceInfo = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClientId = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
@@ -704,6 +722,26 @@ namespace Acme.BookStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AbpUserPasswordHistories",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AbpUserPasswordHistories", x => new { x.UserId, x.Password });
+                    table.ForeignKey(
+                        name: "FK_AbpUserPasswordHistories_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AbpUserRoles",
                 columns: table => new
                 {
@@ -970,6 +1008,13 @@ namespace Acme.BookStore.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AbpResourcePermissionGrants_TenantId_Name_ResourceName_ResourceKey_ProviderName_ProviderKey",
+                table: "AbpResourcePermissionGrants",
+                columns: new[] { "TenantId", "Name", "ResourceName", "ResourceKey", "ProviderName", "ProviderKey" },
+                unique: true,
+                filter: "[TenantId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AbpRoleClaims_RoleId",
                 table: "AbpRoleClaims",
                 column: "RoleId");
@@ -1161,6 +1206,9 @@ namespace Acme.BookStore.Migrations
                 name: "AbpPermissions");
 
             migrationBuilder.DropTable(
+                name: "AbpResourcePermissionGrants");
+
+            migrationBuilder.DropTable(
                 name: "AbpRoleClaims");
 
             migrationBuilder.DropTable(
@@ -1189,6 +1237,9 @@ namespace Acme.BookStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUserOrganizationUnits");
+
+            migrationBuilder.DropTable(
+                name: "AbpUserPasswordHistories");
 
             migrationBuilder.DropTable(
                 name: "AbpUserRoles");

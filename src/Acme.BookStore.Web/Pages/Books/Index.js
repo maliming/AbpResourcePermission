@@ -2,6 +2,10 @@ $(function () {
     var l = abp.localization.getResource('BookStore');
     var createModal = new abp.ModalManager(abp.appPath + 'Books/CreateModal');
     var editModal = new abp.ModalManager(abp.appPath + 'Books/EditModal');
+    var _resourcePermissionsModal = new abp.ModalManager({
+        viewUrl: abp.appPath + "AbpPermissionManagement/ResourcePermissionManagementModal",
+        modalClass: 'ResourcePermissionManagement'
+    });
 
     var dataTable = $('#BooksTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
@@ -43,6 +47,18 @@ $(function () {
                                                 dataTable.ajax.reload();
                                             });
                                     }
+                                },
+                                {
+                                    text: l('ResourcePermissions'),
+                                    visible: abp.auth.isGranted('PermissionManagement.ManageResourcePermissions'), //CHECK for the PERMISSION
+                                    action: function (data) {
+                                        _resourcePermissionsModal.open({
+                                            resourceName: 'Acme.BookStore.Books.Book',
+                                            resourceKey: data.record.id,
+                                            resourceDisplayName: data.record.name + '(Acme.BookStore.Books.Book)'
+                                        });
+
+                                    },
                                 }
                             ]
                     }
@@ -50,6 +66,13 @@ $(function () {
                 {
                     title: l('Name'),
                     data: "name"
+                },
+                {
+                    title: l('ResourcePermissions'),
+                    data: "type",
+                    render: function (data, type, row) {
+                        return "<code>" + JSON.stringify(row.resourcePermissions, null, 2) + "</code>";
+                    }
                 },
                 {
                     title: l('Author'),
@@ -84,6 +107,10 @@ $(function () {
     });
 
     editModal.onResult(function () {
+        dataTable.ajax.reload();
+    });
+
+    _resourcePermissionsModal.onClose(function () {
         dataTable.ajax.reload();
     });
 

@@ -20,4 +20,12 @@ public static class BookStorePermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class Resources
+    {
+        public const string BookResourceName = "Acme.BookStore.Books.Book";
+        public const string ChangeBookName = "ChangeBookName";
+        public const string ChangeBookType = "ChangeBookType";
+        public const string ChangeBookPrice = "ChangeBookPrice";
+    }
 }

@@ -8,6 +8,7 @@ using Acme.BookStore.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Authorization.Permissions.Resources;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
@@ -24,13 +25,16 @@ public class BookAppService :
     IBookAppService //implement the IBookAppService
 {
     private readonly IAuthorRepository _authorRepository;
+    private readonly ResourcePermissionPopulator _resourcePermissionPopulator;
 
     public BookAppService(
         IRepository<Book, Guid> repository,
-        IAuthorRepository authorRepository)
+        IAuthorRepository authorRepository,
+        ResourcePermissionPopulator resourcePermissionPopulator)
         : base(repository)
     {
         _authorRepository = authorRepository;
+        _resourcePermissionPopulator = resourcePermissionPopulator;
         GetPolicyName = BookStorePermissions.Books.Default;
         GetListPolicyName = BookStorePermissions.Books.Default;
         CreatePolicyName = BookStorePermissions.Books.Create;
@@ -58,6 +62,9 @@ public class BookAppService :
 
         var bookDto = ObjectMapper.Map<Book, BookDto>(queryResult.book);
         bookDto.AuthorName = queryResult.author.Name;
+
+        await _resourcePermissionPopulator.PopulateAsync(bookDto, typeof(Book).FullName!);
+
         return bookDto;
     }
 
@@ -90,6 +97,8 @@ public class BookAppService :
 
         //Get the total count with another query
         var totalCount = await Repository.GetCountAsync();
+
+        await _resourcePermissionPopulator.PopulateAsync(bookDtos, typeof(Book).FullName!);
 
         return new PagedResultDto<BookDto>(
             totalCount,
