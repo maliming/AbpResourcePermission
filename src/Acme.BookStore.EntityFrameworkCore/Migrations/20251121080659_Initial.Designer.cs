@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20251120041244_Initial")]
+    [Migration("20251121080659_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -1685,7 +1685,6 @@ namespace Acme.BookStore.Migrations
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("GroupName")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
