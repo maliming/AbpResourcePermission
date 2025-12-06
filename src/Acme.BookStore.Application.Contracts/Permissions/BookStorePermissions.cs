@@ -24,6 +24,11 @@ public static class BookStorePermissions
     public static class Resources
     {
         public const string BookResourceName = "Acme.BookStore.Books.Book";
+
+        public const string ManageChangeBookName = GroupName + ".Resources.ManageChangeBookName";
+        public const string ManageChangeBookType = GroupName + ".Resources.ManageChangeBookType";
+        public const string ManageChangeBookPrice = GroupName + ".Resources.ManageChangeBookPrice";
+
         public const string ChangeBookName = "ChangeBookName";
         public const string ChangeBookType = "ChangeBookType";
         public const string ChangeBookPrice = "ChangeBookPrice";

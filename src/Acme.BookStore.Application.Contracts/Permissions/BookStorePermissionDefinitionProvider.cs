@@ -29,9 +29,25 @@ public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvide
 
     protected virtual void AddBookStoreResourcePermission(IPermissionDefinitionContext context)
     {
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookName, BookStorePermissions.Resources.BookResourceName, L("Change book name"));
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookPrice, BookStorePermissions.Resources.BookResourceName, L("Change book type"));
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookType, BookStorePermissions.Resources.BookResourceName, L("Change book price"));
+        var bookStoreGroup = context.GetGroup(BookStorePermissions.GroupName);
+
+        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookName, L("Manage change book name"));
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookName,
+            BookStorePermissions.Resources.BookResourceName,
+            BookStorePermissions.Resources.ManageChangeBookName,
+            L("Change book name"));
+
+        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookType, L("Manage change book type"));
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookPrice,
+            BookStorePermissions.Resources.BookResourceName,
+            BookStorePermissions.Resources.ManageChangeBookType,
+            L("Change book type"));
+
+        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookPrice, L("Manage change book price"));
+        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookType,
+            BookStorePermissions.Resources.BookResourceName,
+            BookStorePermissions.Resources.ManageChangeBookPrice,
+            L("Change book price"));
     }
 
     private static LocalizableString L(string name)

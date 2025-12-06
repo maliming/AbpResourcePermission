@@ -40,7 +40,7 @@ $(function () {
                                     action: function (data) {
                                         acme.bookStore.books.book
                                             .delete(data.record.id)
-                                            .then(function() {
+                                            .then(function () {
                                                 abp.notify.info(
                                                     l('SuccessfullyDeleted')
                                                 );
@@ -50,7 +50,7 @@ $(function () {
                                 },
                                 {
                                     text: l('ResourcePermissions'),
-                                    visible: abp.auth.isGranted('PermissionManagement.ManageResourcePermissions'), //CHECK for the PERMISSION
+                                    visible: abp.auth.isAnyGranted('BookStore.Resources.ManageChangeBookName', 'BookStore.Resources.ManageChangeBookType', 'BookStore.Resources.ManageChangeBookPrice'), //CHECK for the PERMISSION
                                     action: function (data) {
                                         _resourcePermissionsModal.open({
                                             resourceName: 'Acme.BookStore.Books.Book',

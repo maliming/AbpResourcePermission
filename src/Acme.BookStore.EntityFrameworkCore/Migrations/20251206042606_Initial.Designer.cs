@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20251121080659_Initial")]
+    [Migration("20251206042606_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -1691,6 +1691,10 @@ namespace Acme.BookStore.Migrations
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ManagementPermissionName")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<byte>("MultiTenancySide")
                         .HasColumnType("tinyint");
 
@@ -1719,8 +1723,9 @@ namespace Acme.BookStore.Migrations
 
                     b.HasIndex("GroupName");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("ResourceName", "Name")
+                        .IsUnique()
+                        .HasFilter("[ResourceName] IS NOT NULL");
 
                     b.ToTable("AbpPermissions", (string)null);
                 });
