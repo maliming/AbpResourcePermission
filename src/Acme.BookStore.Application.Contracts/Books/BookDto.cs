@@ -20,9 +20,4 @@ public class BookDto : AuditedEntityDto<Guid>, IHasResourcePermissions
     public string AuthorName { get; set; }
 
     public Dictionary<string, bool> ResourcePermissions { get; set; }
-
-    public string GetResourceKey()
-    {
-        return Id.ToString();
-    }
 }
