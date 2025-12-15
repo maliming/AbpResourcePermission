@@ -14,6 +14,7 @@ public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvide
         booksPermission.AddChild(BookStorePermissions.Books.Create, L("Permission:Books.Create"));
         booksPermission.AddChild(BookStorePermissions.Books.Edit, L("Permission:Books.Edit"));
         booksPermission.AddChild(BookStorePermissions.Books.Delete, L("Permission:Books.Delete"));
+        booksPermission.AddChild(BookStorePermissions.Books.ManagePermissions, L("Manage permissions"));
 
         var authorsPermission = bookStoreGroup.AddPermission(
             BookStorePermissions.Authors.Default, L("Permission:Authors"));
@@ -29,25 +30,26 @@ public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvide
 
     protected virtual void AddBookStoreResourcePermission(IPermissionDefinitionContext context)
     {
-        var bookStoreGroup = context.GetGroup(BookStorePermissions.GroupName);
+        context.AddResourcePermission(
+            BookStorePermissions.Books.Resources.ChangeName,
+            BookStorePermissions.Books.Resources.Name,
+            BookStorePermissions.Books.ManagePermissions,
+            L("Change book name")
+        );
 
-        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookName, L("Manage change book name"));
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookName,
-            BookStorePermissions.Resources.BookResourceName,
-            BookStorePermissions.Resources.ManageChangeBookName,
-            L("Change book name"));
+        context.AddResourcePermission(
+            BookStorePermissions.Books.Resources.ChangeType,
+            BookStorePermissions.Books.Resources.Name,
+            BookStorePermissions.Books.ManagePermissions,
+            L("Change book type")
+        );
 
-        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookType, L("Manage change book type"));
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookPrice,
-            BookStorePermissions.Resources.BookResourceName,
-            BookStorePermissions.Resources.ManageChangeBookType,
-            L("Change book type"));
-
-        bookStoreGroup.AddPermission(BookStorePermissions.Resources.ManageChangeBookPrice, L("Manage change book price"));
-        context.AddResourcePermission(BookStorePermissions.Resources.ChangeBookType,
-            BookStorePermissions.Resources.BookResourceName,
-            BookStorePermissions.Resources.ManageChangeBookPrice,
-            L("Change book price"));
+        context.AddResourcePermission(
+            BookStorePermissions.Books.Resources.ChangePrice,
+            BookStorePermissions.Books.Resources.Name,
+            BookStorePermissions.Books.ManagePermissions,
+            L("Change book price")
+        );
     }
 
     private static LocalizableString L(string name)

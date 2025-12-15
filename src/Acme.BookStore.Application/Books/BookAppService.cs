@@ -68,6 +68,35 @@ public class BookAppService :
         return bookDto;
     }
 
+    public override async Task<BookDto> UpdateAsync(Guid id, CreateUpdateBookDto input)
+    {
+        await CheckUpdatePolicyAsync();
+
+        var entity = await GetEntityByIdAsync(id);
+        
+        entity.PublishDate = input.PublishDate;
+        entity.AuthorId = input.AuthorId;
+        
+        if (await AuthorizationService.IsGrantedAsync(entity, BookStorePermissions.Books.Resources.ChangeName))
+        {
+            entity.Name = input.Name;
+        }
+        
+        if (await AuthorizationService.IsGrantedAsync(entity, BookStorePermissions.Books.Resources.ChangePrice))
+        {
+            entity.Price = input.Price;
+        }
+        
+        if (await AuthorizationService.IsGrantedAsync(entity, BookStorePermissions.Books.Resources.ChangeType))
+        {
+            entity.Type = input.Type;
+        }
+        
+        await Repository.UpdateAsync(entity, autoSave: true);
+
+        return await MapToGetOutputDtoAsync(entity);
+    }
+
     public override async Task<PagedResultDto<BookDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
         //Get the IQueryable<Book> from the repository

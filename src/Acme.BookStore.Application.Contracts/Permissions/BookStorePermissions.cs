@@ -10,27 +10,22 @@ public static class BookStorePermissions
         public const string Create = Default + ".Create";
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
+        public const string ManagePermissions = Default + ".ManagePermissions";
+        
+        public static class Resources
+        {
+            public const string Name = "Acme.BookStore.Books.Book";
+            public const string ChangeName = Name + ".ChangeName";
+            public const string ChangeType = Name + ".ChangeType";
+            public const string ChangePrice = Name + ".ChangePrice";
+        }
     }
 
-    // *** ADDED a NEW NESTED CLASS ***
     public static class Authors
     {
         public const string Default = GroupName + ".Authors";
         public const string Create = Default + ".Create";
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
-    }
-
-    public static class Resources
-    {
-        public const string BookResourceName = "Acme.BookStore.Books.Book";
-
-        public const string ManageChangeBookName = GroupName + ".Resources.ManageChangeBookName";
-        public const string ManageChangeBookType = GroupName + ".Resources.ManageChangeBookType";
-        public const string ManageChangeBookPrice = GroupName + ".Resources.ManageChangeBookPrice";
-
-        public const string ChangeBookName = "ChangeBookName";
-        public const string ChangeBookType = "ChangeBookType";
-        public const string ChangeBookPrice = "ChangeBookPrice";
     }
 }

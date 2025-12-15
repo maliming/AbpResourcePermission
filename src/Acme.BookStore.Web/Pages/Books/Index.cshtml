@@ -12,10 +12,10 @@
 @inject IRepository<Book, Guid> BookRepository
 @{
     var books = await BookRepository.GetListAsync();
-    var resourvePermissions = new Dictionary<string, bool>();
+    var resourcePermissions = new Dictionary<string, bool>();
     foreach (var book in books)
     {
-        resourvePermissions[book.Name] = await AuthorizationService.IsGrantedAsync(book, BookStorePermissions.Resources.ChangeBookName);
+        resourcePermissions[book.Name] = await AuthorizationService.IsGrantedAsync(book, BookStorePermissions.Books.Resources.ChangeName);
     }
 }
 
@@ -45,7 +45,7 @@
     <abp-card-body>
         <code>await AuthorizationService.IsGrantedAsync(book, BookStorePermissions.Resources.ChangeBookName);</code>
         <ul class="list-group mb-2 mt-2">
-            @foreach (var rp in resourvePermissions)
+            @foreach (var rp in resourcePermissions)
             {
                 <li class="list-group-item">Book Name: <span class="badge text-bg-primary rounded-pill me-2">@rp.Key</span> IsGranted: <span class="badge text-bg-primary rounded-pill">@rp.Value</span></li>
             }
