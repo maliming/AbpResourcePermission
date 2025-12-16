@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props" />
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Acme.BookStore.EntityFrameworkCore\Acme.BookStore.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Acme.BookStore.Application.Tests\Acme.BookStore.Application.Tests.csproj" />
-    <ProjectReference Include="../../../abp4/abp/framework/src/Volo.Abp.EntityFrameworkCore.Sqlite/Volo.Abp.EntityFrameworkCore.Sqlite.csproj" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="10.1.0-preview*" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />

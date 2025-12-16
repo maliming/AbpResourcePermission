@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -27,7 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Acme.BookStore.Application.Contracts\Acme.BookStore.Application.Contracts.csproj" />
     <ProjectReference Include="..\Acme.BookStore.EntityFrameworkCore\Acme.BookStore.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="../../../abp4/abp/framework/src/Volo.Abp.Autofac/Volo.Abp.Autofac.csproj" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="10.1.0-preview*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Logs\**" />
