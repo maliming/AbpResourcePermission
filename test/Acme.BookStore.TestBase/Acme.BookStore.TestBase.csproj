@@ -6,10 +6,10 @@
     <RootNamespace>Acme.BookStore</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.TestBase" Version="10.1.0-preview*" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="10.1.0-preview*" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="10.1.0-preview*" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="10.1.0-preview*" />
+    <PackageReference Include="Volo.Abp.TestBase" Version="10.1.0-rc.*" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="10.1.0-rc.*" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="10.1.0-rc.*" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="10.1.0-rc.*" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
