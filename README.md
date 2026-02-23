@@ -1,5 +1,3 @@
-# Web Application Development Tutorial
+# Demo app for Resource based authorization
 
-This is an example project for the Web Application Development Tutorial documentation. See the documentation:
-
-**https://abp.io/docs/latest/Tutorials/Part-1?UI=MVC&DB=EF**
+https://github.com/abpframework/abp/pull/24184

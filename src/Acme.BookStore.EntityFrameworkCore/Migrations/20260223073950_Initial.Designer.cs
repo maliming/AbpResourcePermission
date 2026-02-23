@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20260126020914_Initial")]
+    [Migration("20260223073950_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

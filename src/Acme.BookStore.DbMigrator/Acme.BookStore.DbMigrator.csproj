@@ -27,7 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Acme.BookStore.Application.Contracts\Acme.BookStore.Application.Contracts.csproj" />
     <ProjectReference Include="..\Acme.BookStore.EntityFrameworkCore\Acme.BookStore.EntityFrameworkCore.csproj" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="10.1.0-rc.*" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="10.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Logs\**" />
